@@ -7,14 +7,15 @@ const client = createClient({
   publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
   async resolveUsers({ userIds }) {
     // Example logic to resolve user data
-    // This can be replaced with your actual logic to fetch user info
-    // const usersData = await __fetchUsersFromDB__(userIds);
     return userIds.map((userId) => ({
-      // Example data structure
       id: userId,
       name: userId, // Replace with actual user name from your data source
       avatar: "path_to_default_avatar.png", // Replace with actual avatar URL
     }));
+  },
+  async resolveMentionSuggestions({ text, roomId }) {
+    // Your logic to return userIds based on mention suggestions
+    return [];
   },
 });
 
@@ -86,11 +87,5 @@ export const {
     useRemoveReaction,
   },
 } = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
-  client,
-  {
-    async resolveMentionSuggestions({ text, roomId }) {
-      // Your logic to return userIds based on mention suggestions
-      return [];
-    },
-  }
+  client
 );
